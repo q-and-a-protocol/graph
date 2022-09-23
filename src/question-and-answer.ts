@@ -51,6 +51,8 @@ export function handleQuestionAnswered(event: QuestionAnsweredEvent): void {
 
   questionAnswered.answer = event.params.answer;
 
+  newsfeedEvent.answered = true;
+
   questionAnswered.save();
   newsfeedEvent.save();
 }
@@ -90,6 +92,8 @@ export function handleQuestionAsked(event: QuestionAskedEvent): void {
   newsfeedEvent.date = event.params.date;
 
   questionAsked.question = event.params.question;
+
+  newsfeedEvent.answered = false;
 
   questionAsked.save();
   newsfeedEvent.save();

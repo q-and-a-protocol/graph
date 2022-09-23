@@ -86,6 +86,15 @@ export class NewsfeedEvent extends Entity {
   set date(value: BigInt) {
     this.set("date", Value.fromBigInt(value));
   }
+
+  get answered(): boolean {
+    let value = this.get("answered");
+    return value!.toBoolean();
+  }
+
+  set answered(value: boolean) {
+    this.set("answered", Value.fromBoolean(value));
+  }
 }
 
 export class QuestionAnswered extends Entity {
