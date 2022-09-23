@@ -6,6 +6,8 @@ type NewsfeedEvent @entity {
   bounty: BigInt!
   date: BigInt!
   answered: Boolean!
+  question: String
+  answer: String
 }
 
 type QuestionAnswered @entity {

@@ -95,6 +95,40 @@ export class NewsfeedEvent extends Entity {
   set answered(value: boolean) {
     this.set("answered", Value.fromBoolean(value));
   }
+
+  get question(): string | null {
+    let value = this.get("question");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set question(value: string | null) {
+    if (!value) {
+      this.unset("question");
+    } else {
+      this.set("question", Value.fromString(<string>value));
+    }
+  }
+
+  get answer(): string | null {
+    let value = this.get("answer");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set answer(value: string | null) {
+    if (!value) {
+      this.unset("answer");
+    } else {
+      this.set("answer", Value.fromString(<string>value));
+    }
+  }
 }
 
 export class QuestionAnswered extends Entity {
