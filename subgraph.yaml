@@ -1,0 +1,36 @@
+specVersion: 0.0.4
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: QuestionAndAnswer
+    network: mumbai
+    source:
+      address: '0x24d2abeC5296BF0B145B9b10d51B8d48eCC830a0'
+      abi: QuestionAndAnswer
+      startBlock: 28246297
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - QuestionAnswered
+        - QuestionAsked
+        - QuestionCanceled
+        - QuestionExpired
+        - Withdraw
+      abis:
+        - name: QuestionAndAnswer
+          file: ./abis/QuestionAndAnswer.json
+      eventHandlers:
+        - event: QuestionAnswered(indexed address,indexed address,indexed uint256,uint256,uint256,string)
+          handler: handleQuestionAnswered
+        - event: QuestionAsked(indexed address,indexed address,indexed uint256,uint256,uint256,string)
+          handler: handleQuestionAsked
+        - event: QuestionCanceled(indexed address,indexed address,indexed uint256,uint256)
+          handler: handleQuestionCanceled
+        - event: QuestionExpired(indexed address,indexed address,indexed uint256,uint256)
+          handler: handleQuestionExpired
+        - event: Withdraw(indexed address,indexed uint256)
+          handler: handleWithdraw
+      file: ./src/question-and-answer.ts

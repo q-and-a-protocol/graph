@@ -1,0 +1,44 @@
+type NewsfeedEvent @entity {
+  id: ID!
+  questioner: Bytes!
+  answerer: Bytes!
+  questionId: BigInt!
+  bounty: BigInt!
+  date: BigInt!
+}
+
+type QuestionAnswered @entity {
+  id: ID!
+  questioner: Bytes!
+  answerer: Bytes!
+  questionId: BigInt!
+  bounty: BigInt!
+  date: BigInt!
+  answer: String!
+}
+
+type QuestionAsked @entity {
+  id: ID!
+  questioner: Bytes!
+  answerer: Bytes!
+  questionId: BigInt!
+  bounty: BigInt!
+  date: BigInt!
+  question: String!
+}
+
+type QuestionCanceled @entity {
+  id: ID!
+  questioner: Bytes!
+  answerer: Bytes!
+  questionId: BigInt!
+  date: BigInt!
+}
+
+type QuestionExpired @entity {
+  id: ID!
+  questioner: Bytes!
+  answerer: Bytes!
+  questionId: BigInt!
+  date: BigInt!
+}
