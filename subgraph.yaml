@@ -6,9 +6,9 @@ dataSources:
     name: QuestionAndAnswer
     network: mumbai
     source:
-      address: '0x24d2abeC5296BF0B145B9b10d51B8d48eCC830a0'
+      address: '0x3fb514397898a3bfaebaf276190bd34ef31dd91a'
       abi: QuestionAndAnswer
-      startBlock: 28246297
+      startBlock: 28277412
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
