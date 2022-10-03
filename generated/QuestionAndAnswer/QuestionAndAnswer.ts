@@ -202,7 +202,7 @@ export class QuestionAndAnswer__answererToSettingsResult {
     return this.value2;
   }
 
-  getBlurb(): string {
+  getInterests(): string {
     return this.value3;
   }
 }
@@ -359,6 +359,36 @@ export class QuestionAndAnswer extends ethereum.SmartContract {
   }
 }
 
+export class ConstructorCall extends ethereum.Call {
+  get inputs(): ConstructorCall__Inputs {
+    return new ConstructorCall__Inputs(this);
+  }
+
+  get outputs(): ConstructorCall__Outputs {
+    return new ConstructorCall__Outputs(this);
+  }
+}
+
+export class ConstructorCall__Inputs {
+  _call: ConstructorCall;
+
+  constructor(call: ConstructorCall) {
+    this._call = call;
+  }
+
+  get USDCAddress(): Address {
+    return this._call.inputValues[0].value.toAddress();
+  }
+}
+
+export class ConstructorCall__Outputs {
+  _call: ConstructorCall;
+
+  constructor(call: ConstructorCall) {
+    this._call = call;
+  }
+}
+
 export class AnswerQuestionCall extends ethereum.Call {
   get inputs(): AnswerQuestionCall__Inputs {
     return new AnswerQuestionCall__Inputs(this);
@@ -461,62 +491,36 @@ export class AskQuestionCall__Outputs {
   }
 }
 
-export class SetAnswererSettingsBlurbCall extends ethereum.Call {
-  get inputs(): SetAnswererSettingsBlurbCall__Inputs {
-    return new SetAnswererSettingsBlurbCall__Inputs(this);
+export class SetAnswererSettingsCall extends ethereum.Call {
+  get inputs(): SetAnswererSettingsCall__Inputs {
+    return new SetAnswererSettingsCall__Inputs(this);
   }
 
-  get outputs(): SetAnswererSettingsBlurbCall__Outputs {
-    return new SetAnswererSettingsBlurbCall__Outputs(this);
-  }
-}
-
-export class SetAnswererSettingsBlurbCall__Inputs {
-  _call: SetAnswererSettingsBlurbCall;
-
-  constructor(call: SetAnswererSettingsBlurbCall) {
-    this._call = call;
-  }
-
-  get blurb(): string {
-    return this._call.inputValues[0].value.toString();
+  get outputs(): SetAnswererSettingsCall__Outputs {
+    return new SetAnswererSettingsCall__Outputs(this);
   }
 }
 
-export class SetAnswererSettingsBlurbCall__Outputs {
-  _call: SetAnswererSettingsBlurbCall;
+export class SetAnswererSettingsCall__Inputs {
+  _call: SetAnswererSettingsCall;
 
-  constructor(call: SetAnswererSettingsBlurbCall) {
-    this._call = call;
-  }
-}
-
-export class SetAnswererSettingsPriceMinimumCall extends ethereum.Call {
-  get inputs(): SetAnswererSettingsPriceMinimumCall__Inputs {
-    return new SetAnswererSettingsPriceMinimumCall__Inputs(this);
-  }
-
-  get outputs(): SetAnswererSettingsPriceMinimumCall__Outputs {
-    return new SetAnswererSettingsPriceMinimumCall__Outputs(this);
-  }
-}
-
-export class SetAnswererSettingsPriceMinimumCall__Inputs {
-  _call: SetAnswererSettingsPriceMinimumCall;
-
-  constructor(call: SetAnswererSettingsPriceMinimumCall) {
+  constructor(call: SetAnswererSettingsCall) {
     this._call = call;
   }
 
   get priceMinimum(): BigInt {
     return this._call.inputValues[0].value.toBigInt();
   }
+
+  get interests(): string {
+    return this._call.inputValues[1].value.toString();
+  }
 }
 
-export class SetAnswererSettingsPriceMinimumCall__Outputs {
-  _call: SetAnswererSettingsPriceMinimumCall;
+export class SetAnswererSettingsCall__Outputs {
+  _call: SetAnswererSettingsCall;
 
-  constructor(call: SetAnswererSettingsPriceMinimumCall) {
+  constructor(call: SetAnswererSettingsCall) {
     this._call = call;
   }
 }

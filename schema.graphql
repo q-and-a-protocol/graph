@@ -45,3 +45,11 @@ type QuestionExpired @entity {
   questionId: BigInt!
   date: BigInt!
 }
+
+type User @entity {
+  id: ID!
+  address: Bytes!
+  hasAsked: Boolean
+  hasAnswered: Boolean
+  lastActivityDate: BigInt!
+}

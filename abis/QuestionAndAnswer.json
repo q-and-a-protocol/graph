@@ -1,5 +1,12 @@
 [
   {
+    "inputs": [
+      { "internalType": "address", "name": "USDCAddress", "type": "address" }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "constructor"
+  },
+  {
     "inputs": [],
     "name": "QuestionAndAnswer__AllowanceTooLow",
     "type": "error"
@@ -214,7 +221,7 @@
         "name": "withdrawableAmount",
         "type": "uint256"
       },
-      { "internalType": "string", "name": "blurb", "type": "string" }
+      { "internalType": "string", "name": "interests", "type": "string" }
     ],
     "stateMutability": "view",
     "type": "function"
@@ -255,17 +262,11 @@
     "type": "function"
   },
   {
-    "inputs": [{ "internalType": "string", "name": "blurb", "type": "string" }],
-    "name": "setAnswererSettingsBlurb",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
     "inputs": [
-      { "internalType": "uint256", "name": "priceMinimum", "type": "uint256" }
+      { "internalType": "uint256", "name": "priceMinimum", "type": "uint256" },
+      { "internalType": "string", "name": "interests", "type": "string" }
     ],
-    "name": "setAnswererSettingsPriceMinimum",
+    "name": "setAnswererSettings",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"

@@ -13,6 +13,7 @@ import {
   QuestionCanceled,
   QuestionExpired,
   NewsfeedEvent,
+  User,
 } from '../generated/schema';
 
 export function handleQuestionAnswered(event: QuestionAnsweredEvent): void {
@@ -22,6 +23,7 @@ export function handleQuestionAnswered(event: QuestionAnsweredEvent): void {
   let newsfeedEvent = NewsfeedEvent.load(
     getIdFromEventParams(event.params.questionId, event.params.questioner)
   );
+  let userAnswerer = User.load(getIdFromAddress(event.params.answerer));
 
   if (!questionAnswered) {
     questionAnswered = new QuestionAnswered(
@@ -32,6 +34,9 @@ export function handleQuestionAnswered(event: QuestionAnsweredEvent): void {
     newsfeedEvent = new NewsfeedEvent(
       getIdFromEventParams(event.params.questionId, event.params.questioner)
     );
+  }
+  if (!userAnswerer) {
+    userAnswerer = new User(getIdFromAddress(event.params.answerer));
   }
 
   questionAnswered.questioner = event.params.questioner;
@@ -54,8 +59,13 @@ export function handleQuestionAnswered(event: QuestionAnsweredEvent): void {
 
   newsfeedEvent.answered = true;
 
+  userAnswerer.address = event.params.answerer;
+  userAnswerer.hasAnswered = true;
+  userAnswerer.lastActivityDate = event.params.date;
+
   questionAnswered.save();
   newsfeedEvent.save();
+  userAnswerer.save();
 }
 
 export function handleQuestionAsked(event: QuestionAskedEvent): void {
@@ -65,6 +75,7 @@ export function handleQuestionAsked(event: QuestionAskedEvent): void {
   let newsfeedEvent = NewsfeedEvent.load(
     getIdFromEventParams(event.params.questionId, event.params.questioner)
   );
+  let userQuestioner = User.load(getIdFromAddress(event.params.questioner));
 
   if (!questionAsked) {
     questionAsked = new QuestionAsked(
@@ -75,6 +86,9 @@ export function handleQuestionAsked(event: QuestionAskedEvent): void {
     newsfeedEvent = new NewsfeedEvent(
       getIdFromEventParams(event.params.questionId, event.params.questioner)
     );
+  }
+  if (!userQuestioner) {
+    userQuestioner = new User(getIdFromAddress(event.params.questioner));
   }
 
   questionAsked.questioner = event.params.questioner;
@@ -97,8 +111,13 @@ export function handleQuestionAsked(event: QuestionAskedEvent): void {
 
   newsfeedEvent.answered = false;
 
+  userQuestioner.address = event.params.questioner;
+  userQuestioner.hasAsked = true;
+  userQuestioner.lastActivityDate = event.params.date;
+
   questionAsked.save();
   newsfeedEvent.save();
+  userQuestioner.save();
 }
 
 export function handleQuestionCanceled(event: QuestionCanceledEvent): void {
@@ -139,4 +158,8 @@ export function handleWithdraw(event: WithdrawEvent): void {}
 
 function getIdFromEventParams(questionId: BigInt, questioner: Address): string {
   return questionId.toHexString() + questioner.toHexString();
+}
+
+function getIdFromAddress(address: Address): string {
+  return address.toHexString();
 }
