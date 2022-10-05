@@ -145,7 +145,9 @@ export function handleQuestionCanceled(event: QuestionCanceledEvent): void {
   questionCanceled.questioner = event.params.questioner;
   questionCanceled.answerer = event.params.answerer;
   questionCanceled.questionId = event.params.questionId;
+
   questionCanceled.date = event.params.date;
+  newsfeedEvent.date = event.params.date;
 
   newsfeedEvent.expiryDate = event.params.date;
   newsfeedEvent.expired = true;
