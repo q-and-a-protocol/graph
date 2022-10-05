@@ -4,7 +4,6 @@ import {
   QuestionAnswered,
   QuestionAsked,
   QuestionCanceled,
-  QuestionExpired,
   Withdraw
 } from "../generated/QuestionAndAnswer/QuestionAndAnswer"
 
@@ -54,7 +53,8 @@ export function createQuestionAskedEvent(
   questionId: BigInt,
   bounty: BigInt,
   date: BigInt,
-  question: string
+  question: string,
+  expiryDate: BigInt
 ): QuestionAsked {
   let questionAskedEvent = changetype<QuestionAsked>(newMockEvent())
 
@@ -83,6 +83,12 @@ export function createQuestionAskedEvent(
   )
   questionAskedEvent.parameters.push(
     new ethereum.EventParam("question", ethereum.Value.fromString(question))
+  )
+  questionAskedEvent.parameters.push(
+    new ethereum.EventParam(
+      "expiryDate",
+      ethereum.Value.fromUnsignedBigInt(expiryDate)
+    )
   )
 
   return questionAskedEvent
@@ -118,38 +124,6 @@ export function createQuestionCanceledEvent(
   )
 
   return questionCanceledEvent
-}
-
-export function createQuestionExpiredEvent(
-  questioner: Address,
-  answerer: Address,
-  questionId: BigInt,
-  date: BigInt
-): QuestionExpired {
-  let questionExpiredEvent = changetype<QuestionExpired>(newMockEvent())
-
-  questionExpiredEvent.parameters = new Array()
-
-  questionExpiredEvent.parameters.push(
-    new ethereum.EventParam(
-      "questioner",
-      ethereum.Value.fromAddress(questioner)
-    )
-  )
-  questionExpiredEvent.parameters.push(
-    new ethereum.EventParam("answerer", ethereum.Value.fromAddress(answerer))
-  )
-  questionExpiredEvent.parameters.push(
-    new ethereum.EventParam(
-      "questionId",
-      ethereum.Value.fromUnsignedBigInt(questionId)
-    )
-  )
-  questionExpiredEvent.parameters.push(
-    new ethereum.EventParam("date", ethereum.Value.fromUnsignedBigInt(date))
-  )
-
-  return questionExpiredEvent
 }
 
 export function createWithdrawEvent(

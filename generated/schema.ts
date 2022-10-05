@@ -129,6 +129,24 @@ export class NewsfeedEvent extends Entity {
       this.set("answer", Value.fromString(<string>value));
     }
   }
+
+  get expiryDate(): BigInt {
+    let value = this.get("expiryDate");
+    return value!.toBigInt();
+  }
+
+  set expiryDate(value: BigInt) {
+    this.set("expiryDate", Value.fromBigInt(value));
+  }
+
+  get expired(): boolean {
+    let value = this.get("expired");
+    return value!.toBoolean();
+  }
+
+  set expired(value: boolean) {
+    this.set("expired", Value.fromBoolean(value));
+  }
 }
 
 export class QuestionAnswered extends Entity {
@@ -303,6 +321,15 @@ export class QuestionAsked extends Entity {
   set question(value: string) {
     this.set("question", Value.fromString(value));
   }
+
+  get expiryDate(): BigInt {
+    let value = this.get("expiryDate");
+    return value!.toBigInt();
+  }
+
+  set expiryDate(value: BigInt) {
+    this.set("expiryDate", Value.fromBigInt(value));
+  }
 }
 
 export class QuestionCanceled extends Entity {
@@ -375,7 +402,7 @@ export class QuestionCanceled extends Entity {
   }
 }
 
-export class QuestionExpired extends Entity {
+export class Withdraw extends Entity {
   constructor(id: string) {
     super();
     this.set("id", Value.fromString(id));
@@ -383,18 +410,18 @@ export class QuestionExpired extends Entity {
 
   save(): void {
     let id = this.get("id");
-    assert(id != null, "Cannot save QuestionExpired entity without an ID");
+    assert(id != null, "Cannot save Withdraw entity without an ID");
     if (id) {
       assert(
         id.kind == ValueKind.STRING,
-        `Entities of type QuestionExpired must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+        `Entities of type Withdraw must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
       );
-      store.set("QuestionExpired", id.toString(), this);
+      store.set("Withdraw", id.toString(), this);
     }
   }
 
-  static load(id: string): QuestionExpired | null {
-    return changetype<QuestionExpired | null>(store.get("QuestionExpired", id));
+  static load(id: string): Withdraw | null {
+    return changetype<Withdraw | null>(store.get("Withdraw", id));
   }
 
   get id(): string {
@@ -406,40 +433,22 @@ export class QuestionExpired extends Entity {
     this.set("id", Value.fromString(value));
   }
 
-  get questioner(): Bytes {
-    let value = this.get("questioner");
+  get withdrawalBy(): Bytes {
+    let value = this.get("withdrawalBy");
     return value!.toBytes();
   }
 
-  set questioner(value: Bytes) {
-    this.set("questioner", Value.fromBytes(value));
+  set withdrawalBy(value: Bytes) {
+    this.set("withdrawalBy", Value.fromBytes(value));
   }
 
-  get answerer(): Bytes {
-    let value = this.get("answerer");
-    return value!.toBytes();
-  }
-
-  set answerer(value: Bytes) {
-    this.set("answerer", Value.fromBytes(value));
-  }
-
-  get questionId(): BigInt {
-    let value = this.get("questionId");
+  get amount(): BigInt {
+    let value = this.get("amount");
     return value!.toBigInt();
   }
 
-  set questionId(value: BigInt) {
-    this.set("questionId", Value.fromBigInt(value));
-  }
-
-  get date(): BigInt {
-    let value = this.get("date");
-    return value!.toBigInt();
-  }
-
-  set date(value: BigInt) {
-    this.set("date", Value.fromBigInt(value));
+  set amount(value: BigInt) {
+    this.set("amount", Value.fromBigInt(value));
   }
 }
 

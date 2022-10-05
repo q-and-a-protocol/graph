@@ -84,6 +84,10 @@ export class QuestionAsked__Params {
   get question(): string {
     return this._event.parameters[5].value.toString();
   }
+
+  get expiryDate(): BigInt {
+    return this._event.parameters[6].value.toBigInt();
+  }
 }
 
 export class QuestionCanceled extends ethereum.Event {
@@ -96,36 +100,6 @@ export class QuestionCanceled__Params {
   _event: QuestionCanceled;
 
   constructor(event: QuestionCanceled) {
-    this._event = event;
-  }
-
-  get questioner(): Address {
-    return this._event.parameters[0].value.toAddress();
-  }
-
-  get answerer(): Address {
-    return this._event.parameters[1].value.toAddress();
-  }
-
-  get questionId(): BigInt {
-    return this._event.parameters[2].value.toBigInt();
-  }
-
-  get date(): BigInt {
-    return this._event.parameters[3].value.toBigInt();
-  }
-}
-
-export class QuestionExpired extends ethereum.Event {
-  get params(): QuestionExpired__Params {
-    return new QuestionExpired__Params(this);
-  }
-}
-
-export class QuestionExpired__Params {
-  _event: QuestionExpired;
-
-  constructor(event: QuestionExpired) {
     this._event = event;
   }
 
@@ -213,19 +187,22 @@ export class QuestionAndAnswer__getQuestionerToAnswererToQAsResult {
   value2: boolean;
   value3: BigInt;
   value4: BigInt;
+  value5: BigInt;
 
   constructor(
     value0: string,
     value1: string,
     value2: boolean,
     value3: BigInt,
-    value4: BigInt
+    value4: BigInt,
+    value5: BigInt
   ) {
     this.value0 = value0;
     this.value1 = value1;
     this.value2 = value2;
     this.value3 = value3;
     this.value4 = value4;
+    this.value5 = value5;
   }
 
   toMap(): TypedMap<string, ethereum.Value> {
@@ -235,6 +212,7 @@ export class QuestionAndAnswer__getQuestionerToAnswererToQAsResult {
     map.set("value2", ethereum.Value.fromBoolean(this.value2));
     map.set("value3", ethereum.Value.fromUnsignedBigInt(this.value3));
     map.set("value4", ethereum.Value.fromUnsignedBigInt(this.value4));
+    map.set("value5", ethereum.Value.fromUnsignedBigInt(this.value5));
     return map;
   }
 
@@ -256,6 +234,10 @@ export class QuestionAndAnswer__getQuestionerToAnswererToQAsResult {
 
   getValue4(): BigInt {
     return this.value4;
+  }
+
+  getValue5(): BigInt {
+    return this.value5;
   }
 }
 
@@ -310,7 +292,7 @@ export class QuestionAndAnswer extends ethereum.SmartContract {
   ): QuestionAndAnswer__getQuestionerToAnswererToQAsResult {
     let result = super.call(
       "getQuestionerToAnswererToQAs",
-      "getQuestionerToAnswererToQAs(address,address,uint256):(string,string,bool,uint256,uint256)",
+      "getQuestionerToAnswererToQAs(address,address,uint256):(string,string,bool,uint256,uint256,uint256)",
       [
         ethereum.Value.fromAddress(questioner),
         ethereum.Value.fromAddress(answerer),
@@ -323,7 +305,8 @@ export class QuestionAndAnswer extends ethereum.SmartContract {
       result[1].toString(),
       result[2].toBoolean(),
       result[3].toBigInt(),
-      result[4].toBigInt()
+      result[4].toBigInt(),
+      result[5].toBigInt()
     );
   }
 
@@ -336,7 +319,7 @@ export class QuestionAndAnswer extends ethereum.SmartContract {
   > {
     let result = super.tryCall(
       "getQuestionerToAnswererToQAs",
-      "getQuestionerToAnswererToQAs(address,address,uint256):(string,string,bool,uint256,uint256)",
+      "getQuestionerToAnswererToQAs(address,address,uint256):(string,string,bool,uint256,uint256,uint256)",
       [
         ethereum.Value.fromAddress(questioner),
         ethereum.Value.fromAddress(answerer),
@@ -353,7 +336,8 @@ export class QuestionAndAnswer extends ethereum.SmartContract {
         value[1].toString(),
         value[2].toBoolean(),
         value[3].toBigInt(),
-        value[4].toBigInt()
+        value[4].toBigInt(),
+        value[5].toBigInt()
       )
     );
   }
@@ -481,12 +465,50 @@ export class AskQuestionCall__Inputs {
   get bounty(): BigInt {
     return this._call.inputValues[2].value.toBigInt();
   }
+
+  get expiryDate(): BigInt {
+    return this._call.inputValues[3].value.toBigInt();
+  }
 }
 
 export class AskQuestionCall__Outputs {
   _call: AskQuestionCall;
 
   constructor(call: AskQuestionCall) {
+    this._call = call;
+  }
+}
+
+export class CancelQuestionCall extends ethereum.Call {
+  get inputs(): CancelQuestionCall__Inputs {
+    return new CancelQuestionCall__Inputs(this);
+  }
+
+  get outputs(): CancelQuestionCall__Outputs {
+    return new CancelQuestionCall__Outputs(this);
+  }
+}
+
+export class CancelQuestionCall__Inputs {
+  _call: CancelQuestionCall;
+
+  constructor(call: CancelQuestionCall) {
+    this._call = call;
+  }
+
+  get answerer(): Address {
+    return this._call.inputValues[0].value.toAddress();
+  }
+
+  get questionId(): BigInt {
+    return this._call.inputValues[1].value.toBigInt();
+  }
+}
+
+export class CancelQuestionCall__Outputs {
+  _call: CancelQuestionCall;
+
+  constructor(call: CancelQuestionCall) {
     this._call = call;
   }
 }

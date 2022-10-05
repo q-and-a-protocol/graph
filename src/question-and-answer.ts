@@ -1,18 +1,16 @@
 import { BigInt, Address } from '@graphprotocol/graph-ts';
 import {
-  QuestionAndAnswer,
   QuestionAnswered as QuestionAnsweredEvent,
   QuestionAsked as QuestionAskedEvent,
   QuestionCanceled as QuestionCanceledEvent,
-  QuestionExpired as QuestionExpiredEvent,
   Withdraw as WithdrawEvent,
 } from '../generated/QuestionAndAnswer/QuestionAndAnswer';
 import {
   QuestionAnswered,
   QuestionAsked,
   QuestionCanceled,
-  QuestionExpired,
   NewsfeedEvent,
+  Withdraw,
   User,
 } from '../generated/schema';
 
@@ -109,7 +107,12 @@ export function handleQuestionAsked(event: QuestionAskedEvent): void {
   questionAsked.question = event.params.question;
   newsfeedEvent.question = event.params.question;
 
+  questionAsked.expiryDate = event.params.expiryDate;
+  newsfeedEvent.expiryDate = event.params.expiryDate;
+
   newsfeedEvent.answered = false;
+
+  newsfeedEvent.expired = false;
 
   userQuestioner.address = event.params.questioner;
   userQuestioner.hasAsked = true;
@@ -124,37 +127,45 @@ export function handleQuestionCanceled(event: QuestionCanceledEvent): void {
   let questionCanceled = QuestionCanceled.load(
     getIdFromEventParams(event.params.questionId, event.params.questioner)
   );
+  let newsfeedEvent = NewsfeedEvent.load(
+    getIdFromEventParams(event.params.questionId, event.params.questioner)
+  );
+
   if (!questionCanceled) {
     questionCanceled = new QuestionCanceled(
       getIdFromEventParams(event.params.questionId, event.params.questioner)
     );
   }
+  if (!newsfeedEvent) {
+    newsfeedEvent = new NewsfeedEvent(
+      getIdFromEventParams(event.params.questionId, event.params.questioner)
+    );
+  }
+
   questionCanceled.questioner = event.params.questioner;
   questionCanceled.answerer = event.params.answerer;
   questionCanceled.questionId = event.params.questionId;
   questionCanceled.date = event.params.date;
 
+  newsfeedEvent.expiryDate = event.params.date;
+  newsfeedEvent.expired = true;
+
   questionCanceled.save();
+  newsfeedEvent.save();
 }
 
-export function handleQuestionExpired(event: QuestionExpiredEvent): void {
-  let questionExpired = QuestionExpired.load(
-    getIdFromEventParams(event.params.questionId, event.params.questioner)
-  );
-  if (!questionExpired) {
-    questionExpired = new QuestionExpired(
-      getIdFromEventParams(event.params.questionId, event.params.questioner)
-    );
+export function handleWithdraw(event: WithdrawEvent): void {
+  let withdraw = Withdraw.load(getIdFromAddress(event.params.withdrawalBy));
+
+  if (!withdraw) {
+    withdraw = new Withdraw(getIdFromAddress(event.params.withdrawalBy));
   }
-  questionExpired.questioner = event.params.questioner;
-  questionExpired.answerer = event.params.answerer;
-  questionExpired.questionId = event.params.questionId;
-  questionExpired.date = event.params.date;
 
-  questionExpired.save();
+  withdraw.withdrawalBy = event.params.withdrawalBy;
+  withdraw.amount = event.params.amount;
+
+  withdraw.save();
 }
-
-export function handleWithdraw(event: WithdrawEvent): void {}
 
 function getIdFromEventParams(questionId: BigInt, questioner: Address): string {
   return questionId.toHexString() + questioner.toHexString();

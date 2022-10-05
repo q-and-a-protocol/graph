@@ -8,6 +8,8 @@ type NewsfeedEvent @entity {
   answered: Boolean!
   question: String
   answer: String
+  expiryDate: BigInt!
+  expired: Boolean!
 }
 
 type QuestionAnswered @entity {
@@ -28,6 +30,7 @@ type QuestionAsked @entity {
   bounty: BigInt!
   date: BigInt!
   question: String!
+  expiryDate: BigInt!
 }
 
 type QuestionCanceled @entity {
@@ -38,12 +41,10 @@ type QuestionCanceled @entity {
   date: BigInt!
 }
 
-type QuestionExpired @entity {
+type Withdraw @entity {
   id: ID!
-  questioner: Bytes!
-  answerer: Bytes!
-  questionId: BigInt!
-  date: BigInt!
+  withdrawalBy: Bytes!
+  amount: BigInt!
 }
 
 type User @entity {

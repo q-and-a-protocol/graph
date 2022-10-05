@@ -1,13 +1,13 @@
 {
-  "name": "question-and-answer-the-graph-2",
+  "name": "question-and-answer-the-graph",
   "license": "UNLICENSED",
   "scripts": {
     "codegen": "graph codegen",
     "build": "graph build",
-    "deploy": "graph deploy --node https://api.thegraph.com/deploy/ arshaanb/question-and-answer-the-graph-2",
-    "create-local": "graph create --node http://localhost:8020/ arshaanb/question-and-answer-the-graph-2",
-    "remove-local": "graph remove --node http://localhost:8020/ arshaanb/question-and-answer-the-graph-2",
-    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 arshaanb/question-and-answer-the-graph-2",
+    "deploy": "graph deploy --node https://api.thegraph.com/deploy/ arshaanb/question-and-answer-the-graph",
+    "create-local": "graph create --node http://localhost:8020/ arshaanb/question-and-answer-the-graph",
+    "remove-local": "graph remove --node http://localhost:8020/ arshaanb/question-and-answer-the-graph",
+    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 arshaanb/question-and-answer-the-graph",
     "test": "graph test"
   },
   "dependencies": {

@@ -6,9 +6,9 @@ dataSources:
     name: QuestionAndAnswer
     network: mumbai
     source:
-      address: '0x141ae992ca9b3c2cc9e5490ef149010ddf3598dc'
+      address: '0x5aF74EA4c2Ce9Fc128B908D999786C94bAD5671D'
       abi: QuestionAndAnswer
-      startBlock: 28430757
+      startBlock: 28449503
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -17,7 +17,6 @@ dataSources:
         - QuestionAnswered
         - QuestionAsked
         - QuestionCanceled
-        - QuestionExpired
         - Withdraw
       abis:
         - name: QuestionAndAnswer
@@ -25,12 +24,10 @@ dataSources:
       eventHandlers:
         - event: QuestionAnswered(indexed address,indexed address,indexed uint256,uint256,uint256,string)
           handler: handleQuestionAnswered
-        - event: QuestionAsked(indexed address,indexed address,indexed uint256,uint256,uint256,string)
+        - event: QuestionAsked(indexed address,indexed address,indexed uint256,uint256,uint256,string,uint256)
           handler: handleQuestionAsked
         - event: QuestionCanceled(indexed address,indexed address,indexed uint256,uint256)
           handler: handleQuestionCanceled
-        - event: QuestionExpired(indexed address,indexed address,indexed uint256,uint256)
-          handler: handleQuestionExpired
         - event: Withdraw(indexed address,indexed uint256)
           handler: handleWithdraw
       file: ./src/question-and-answer.ts
