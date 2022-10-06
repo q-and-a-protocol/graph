@@ -60,6 +60,13 @@ export function handleQuestionAnswered(event: QuestionAnsweredEvent): void {
   userAnswerer.address = event.params.answerer;
   userAnswerer.hasAnswered = true;
   userAnswerer.lastActivityDate = event.params.date;
+  // if (!userAnswerer.hasAnswered) {
+  //   userAnswerer.numberOfQuestionsAnswered = BigInt.fromString('1');
+  // } else {
+  //   userAnswerer.numberOfQuestionsAnswered = userAnswerer.numberOfQuestionsAnswered.plus(
+  //     BigInt.fromString('1')
+  //   );
+  // }
 
   questionAnswered.save();
   newsfeedEvent.save();
@@ -117,6 +124,13 @@ export function handleQuestionAsked(event: QuestionAskedEvent): void {
   userQuestioner.address = event.params.questioner;
   userQuestioner.hasAsked = true;
   userQuestioner.lastActivityDate = event.params.date;
+  // if (!userQuestioner.hasAsked) {
+  //   userQuestioner.numberOfQuestionsAsked = BigInt.fromString('1');
+  // } else {
+  //   userQuestioner.numberOfQuestionsAsked = userQuestioner.numberOfQuestionsAsked.plus(
+  //     BigInt.fromString('1')
+  //   );
+  // }
 
   questionAsked.save();
   newsfeedEvent.save();

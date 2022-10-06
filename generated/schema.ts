@@ -518,4 +518,22 @@ export class User extends Entity {
   set lastActivityDate(value: BigInt) {
     this.set("lastActivityDate", Value.fromBigInt(value));
   }
+
+  get numberOfQuestionsAsked(): BigInt {
+    let value = this.get("numberOfQuestionsAsked");
+    return value!.toBigInt();
+  }
+
+  set numberOfQuestionsAsked(value: BigInt) {
+    this.set("numberOfQuestionsAsked", Value.fromBigInt(value));
+  }
+
+  get numberOfQuestionsAnswered(): BigInt {
+    let value = this.get("numberOfQuestionsAnswered");
+    return value!.toBigInt();
+  }
+
+  set numberOfQuestionsAnswered(value: BigInt) {
+    this.set("numberOfQuestionsAnswered", Value.fromBigInt(value));
+  }
 }
