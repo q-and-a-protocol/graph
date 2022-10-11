@@ -519,21 +519,37 @@ export class User extends Entity {
     this.set("lastActivityDate", Value.fromBigInt(value));
   }
 
-  get numberOfQuestionsAsked(): BigInt {
+  get numberOfQuestionsAsked(): BigInt | null {
     let value = this.get("numberOfQuestionsAsked");
-    return value!.toBigInt();
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigInt();
+    }
   }
 
-  set numberOfQuestionsAsked(value: BigInt) {
-    this.set("numberOfQuestionsAsked", Value.fromBigInt(value));
+  set numberOfQuestionsAsked(value: BigInt | null) {
+    if (!value) {
+      this.unset("numberOfQuestionsAsked");
+    } else {
+      this.set("numberOfQuestionsAsked", Value.fromBigInt(<BigInt>value));
+    }
   }
 
-  get numberOfQuestionsAnswered(): BigInt {
+  get numberOfQuestionsAnswered(): BigInt | null {
     let value = this.get("numberOfQuestionsAnswered");
-    return value!.toBigInt();
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigInt();
+    }
   }
 
-  set numberOfQuestionsAnswered(value: BigInt) {
-    this.set("numberOfQuestionsAnswered", Value.fromBigInt(value));
+  set numberOfQuestionsAnswered(value: BigInt | null) {
+    if (!value) {
+      this.unset("numberOfQuestionsAnswered");
+    } else {
+      this.set("numberOfQuestionsAnswered", Value.fromBigInt(<BigInt>value));
+    }
   }
 }

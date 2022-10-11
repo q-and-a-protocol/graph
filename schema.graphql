@@ -53,6 +53,6 @@ type User @entity {
   hasAsked: Boolean
   hasAnswered: Boolean
   lastActivityDate: BigInt!
-  # numberOfQuestionsAsked: BigInt!
-  # numberOfQuestionsAnswered: BigInt!
+  numberOfQuestionsAsked: BigInt
+  numberOfQuestionsAnswered: BigInt
 }

@@ -1,11 +1,57 @@
 import { newMockEvent } from "matchstick-as"
 import { ethereum, Address, BigInt } from "@graphprotocol/graph-ts"
 import {
+  EmergencyWithdraw,
+  OwnershipTransferred,
   QuestionAnswered,
   QuestionAsked,
   QuestionCanceled,
   Withdraw
 } from "../generated/QuestionAndAnswer/QuestionAndAnswer"
+
+export function createEmergencyWithdrawEvent(
+  withdrawalBy: Address,
+  amount: BigInt
+): EmergencyWithdraw {
+  let emergencyWithdrawEvent = changetype<EmergencyWithdraw>(newMockEvent())
+
+  emergencyWithdrawEvent.parameters = new Array()
+
+  emergencyWithdrawEvent.parameters.push(
+    new ethereum.EventParam(
+      "withdrawalBy",
+      ethereum.Value.fromAddress(withdrawalBy)
+    )
+  )
+  emergencyWithdrawEvent.parameters.push(
+    new ethereum.EventParam("amount", ethereum.Value.fromUnsignedBigInt(amount))
+  )
+
+  return emergencyWithdrawEvent
+}
+
+export function createOwnershipTransferredEvent(
+  previousOwner: Address,
+  newOwner: Address
+): OwnershipTransferred {
+  let ownershipTransferredEvent = changetype<OwnershipTransferred>(
+    newMockEvent()
+  )
+
+  ownershipTransferredEvent.parameters = new Array()
+
+  ownershipTransferredEvent.parameters.push(
+    new ethereum.EventParam(
+      "previousOwner",
+      ethereum.Value.fromAddress(previousOwner)
+    )
+  )
+  ownershipTransferredEvent.parameters.push(
+    new ethereum.EventParam("newOwner", ethereum.Value.fromAddress(newOwner))
+  )
+
+  return ownershipTransferredEvent
+}
 
 export function createQuestionAnsweredEvent(
   questioner: Address,

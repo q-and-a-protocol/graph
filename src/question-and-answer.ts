@@ -4,6 +4,8 @@ import {
   QuestionAsked as QuestionAskedEvent,
   QuestionCanceled as QuestionCanceledEvent,
   Withdraw as WithdrawEvent,
+  EmergencyWithdraw as EmergencyWithdrawEvent,
+  OwnershipTransferred as OwnershipTransferredEvent,
 } from '../generated/QuestionAndAnswer/QuestionAndAnswer';
 import {
   QuestionAnswered,
@@ -60,13 +62,13 @@ export function handleQuestionAnswered(event: QuestionAnsweredEvent): void {
   userAnswerer.address = event.params.answerer;
   userAnswerer.hasAnswered = true;
   userAnswerer.lastActivityDate = event.params.date;
-  // if (!userAnswerer.hasAnswered) {
-  //   userAnswerer.numberOfQuestionsAnswered = BigInt.fromString('1');
-  // } else {
-  //   userAnswerer.numberOfQuestionsAnswered = userAnswerer.numberOfQuestionsAnswered.plus(
-  //     BigInt.fromString('1')
-  //   );
-  // }
+  if (!userAnswerer.numberOfQuestionsAnswered) {
+    userAnswerer.numberOfQuestionsAnswered = BigInt.fromString('1');
+  } else {
+    userAnswerer.numberOfQuestionsAnswered = userAnswerer.numberOfQuestionsAnswered!.plus(
+      BigInt.fromString('1')
+    );
+  }
 
   questionAnswered.save();
   newsfeedEvent.save();
@@ -124,13 +126,13 @@ export function handleQuestionAsked(event: QuestionAskedEvent): void {
   userQuestioner.address = event.params.questioner;
   userQuestioner.hasAsked = true;
   userQuestioner.lastActivityDate = event.params.date;
-  // if (!userQuestioner.hasAsked) {
-  //   userQuestioner.numberOfQuestionsAsked = BigInt.fromString('1');
-  // } else {
-  //   userQuestioner.numberOfQuestionsAsked = userQuestioner.numberOfQuestionsAsked.plus(
-  //     BigInt.fromString('1')
-  //   );
-  // }
+  if (!userQuestioner.numberOfQuestionsAsked) {
+    userQuestioner.numberOfQuestionsAsked = BigInt.fromString('1');
+  } else {
+    userQuestioner.numberOfQuestionsAsked = userQuestioner.numberOfQuestionsAsked!.plus(
+      BigInt.fromString('1')
+    );
+  }
 
   questionAsked.save();
   newsfeedEvent.save();
@@ -190,3 +192,7 @@ function getIdFromEventParams(questionId: BigInt, questioner: Address): string {
 function getIdFromAddress(address: Address): string {
   return address.toHexString();
 }
+
+export function handleEmergencyWithdraw(event: EmergencyWithdrawEvent): void {}
+
+export function handleOwnershipTransferred(event: OwnershipTransferredEvent): void {}

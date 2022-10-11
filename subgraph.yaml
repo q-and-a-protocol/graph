@@ -4,16 +4,18 @@ schema:
 dataSources:
   - kind: ethereum
     name: QuestionAndAnswer
-    network: mumbai
+    network: matic
     source:
-      address: '0x5aF74EA4c2Ce9Fc128B908D999786C94bAD5671D'
+      address: '0xbE4F9a902C8DA1731A9E984C519b46AD1cBD9d15'
       abi: QuestionAndAnswer
-      startBlock: 28449503
+      startBlock: 34184191
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
       language: wasm/assemblyscript
       entities:
+        - EmergencyWithdraw
+        - OwnershipTransferred
         - QuestionAnswered
         - QuestionAsked
         - QuestionCanceled
@@ -22,6 +24,10 @@ dataSources:
         - name: QuestionAndAnswer
           file: ./abis/QuestionAndAnswer.json
       eventHandlers:
+        - event: EmergencyWithdraw(indexed address,indexed uint256)
+          handler: handleEmergencyWithdraw
+        - event: OwnershipTransferred(indexed address,indexed address)
+          handler: handleOwnershipTransferred
         - event: QuestionAnswered(indexed address,indexed address,indexed uint256,uint256,uint256,string)
           handler: handleQuestionAnswered
         - event: QuestionAsked(indexed address,indexed address,indexed uint256,uint256,uint256,string,uint256)
