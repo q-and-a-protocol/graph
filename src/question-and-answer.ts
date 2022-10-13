@@ -18,21 +18,21 @@ import {
 
 export function handleQuestionAnswered(event: QuestionAnsweredEvent): void {
   let questionAnswered = QuestionAnswered.load(
-    getIdFromEventParams(event.params.questionId, event.params.questioner)
+    getIdFromEventParams(event.params.questioner, event.params.answerer)
   );
   let newsfeedEvent = NewsfeedEvent.load(
-    getIdFromEventParams(event.params.questionId, event.params.questioner)
+    getIdFromEventParams(event.params.questioner, event.params.answerer)
   );
   let userAnswerer = User.load(getIdFromAddress(event.params.answerer));
 
   if (!questionAnswered) {
     questionAnswered = new QuestionAnswered(
-      getIdFromEventParams(event.params.questionId, event.params.questioner)
+      getIdFromEventParams(event.params.questioner, event.params.answerer)
     );
   }
   if (!newsfeedEvent) {
     newsfeedEvent = new NewsfeedEvent(
-      getIdFromEventParams(event.params.questionId, event.params.questioner)
+      getIdFromEventParams(event.params.questioner, event.params.answerer)
     );
   }
   if (!userAnswerer) {
@@ -77,21 +77,21 @@ export function handleQuestionAnswered(event: QuestionAnsweredEvent): void {
 
 export function handleQuestionAsked(event: QuestionAskedEvent): void {
   let questionAsked = QuestionAsked.load(
-    getIdFromEventParams(event.params.questionId, event.params.questioner)
+    getIdFromEventParams(event.params.questioner, event.params.answerer)
   );
   let newsfeedEvent = NewsfeedEvent.load(
-    getIdFromEventParams(event.params.questionId, event.params.questioner)
+    getIdFromEventParams(event.params.questioner, event.params.answerer)
   );
   let userQuestioner = User.load(getIdFromAddress(event.params.questioner));
 
   if (!questionAsked) {
     questionAsked = new QuestionAsked(
-      getIdFromEventParams(event.params.questionId, event.params.questioner)
+      getIdFromEventParams(event.params.questioner, event.params.answerer)
     );
   }
   if (!newsfeedEvent) {
     newsfeedEvent = new NewsfeedEvent(
-      getIdFromEventParams(event.params.questionId, event.params.questioner)
+      getIdFromEventParams(event.params.questioner, event.params.answerer)
     );
   }
   if (!userQuestioner) {
@@ -141,20 +141,20 @@ export function handleQuestionAsked(event: QuestionAskedEvent): void {
 
 export function handleQuestionCanceled(event: QuestionCanceledEvent): void {
   let questionCanceled = QuestionCanceled.load(
-    getIdFromEventParams(event.params.questionId, event.params.questioner)
+    getIdFromEventParams(event.params.questioner, event.params.answerer)
   );
   let newsfeedEvent = NewsfeedEvent.load(
-    getIdFromEventParams(event.params.questionId, event.params.questioner)
+    getIdFromEventParams(event.params.questioner, event.params.answerer)
   );
 
   if (!questionCanceled) {
     questionCanceled = new QuestionCanceled(
-      getIdFromEventParams(event.params.questionId, event.params.questioner)
+      getIdFromEventParams(event.params.questioner, event.params.answerer)
     );
   }
   if (!newsfeedEvent) {
     newsfeedEvent = new NewsfeedEvent(
-      getIdFromEventParams(event.params.questionId, event.params.questioner)
+      getIdFromEventParams(event.params.questioner, event.params.answerer)
     );
   }
 
@@ -185,8 +185,8 @@ export function handleWithdraw(event: WithdrawEvent): void {
   withdraw.save();
 }
 
-function getIdFromEventParams(questionId: BigInt, questioner: Address): string {
-  return questionId.toHexString() + questioner.toHexString();
+function getIdFromEventParams(questioner: Address, answerer: Address): string {
+  return questioner.toHexString() + answerer.toHexString();
 }
 
 function getIdFromAddress(address: Address): string {
