@@ -1,7 +1,17 @@
-# Overview
+# Q&A Protocol
 
-This application consists of 3 Github repositories:
+Makes it possible to message people and pay them to reply.
 
-1. [Front-End](https://github.com/ArshaanB/question-and-answer-front-end)
-2. [Smart Contracts](https://github.com/ArshaanB/question-and-answer-contracts)
-3. [The Graph Indexing](https://github.com/ArshaanB/question-and-answer-contracts-the-graph)
+Visit [Q&A Protocol](https://www.qandaprotocol.com/) by clicking here.
+
+## What is this repository?
+
+This repository contains The Graph code for the smart contract which is deployed on Polygon.
+
+## Usage
+
+The product is currently in Beta and if you'd like access or have any questions or suggestions please contact me on Twitter (https://twitter.com/arshaan_b).
+
+## Support
+
+We're lucky to be working closely with the following organizations: Polygon, Antler.
